@@ -2,10 +2,9 @@ import React from 'react'
 
 interface BoardRowProps {
     guess: string[];
-    handleGuessChange: () => void;
 }
 
-export const BoardRow = ({ guess, handleGuessChange }: BoardRowProps) => {
+export const BoardRow = ({ guess }: BoardRowProps) => {
   return (
     <div className="playing-board-row">
         {/* TODO: pass a tuple to props that can be mapped to these tiles */}
