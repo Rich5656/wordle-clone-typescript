@@ -54,3 +54,11 @@
   /* text-align: center; */
   vertical-align: middle;
 }
+
+.relative-match {
+  background-color: rgb(254, 254, 143);
+}
+
+.absolute-match {
+  background-color: rgb(91, 206, 91);
+}
