@@ -1,11 +1,20 @@
 import React, { useState, MouseEvent } from 'react';
 import { BoardRow } from '../Components/BoardRow';
 import { KeyboardDisplay } from '../Components/KeyboardDisplay';
-import { AssertionError } from 'assert';
+
 
 interface GuessSetterMap {
     [position: number]: React.Dispatch<React.SetStateAction<string[]>>;
 }
+
+interface SubmissionSetterMap {
+    [position: number]: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+interface GuessMap {
+    [position: number]: string[];
+}
+
 
 export const PlayingBoardContainer = () => {
   const answer: string[] = ['w', 'o', 'r', 'd', 's'];
@@ -28,7 +37,15 @@ export const PlayingBoardContainer = () => {
   const [ sixthSubmitted, setSixthSubmitted ] = useState<boolean>(false);
 
   const [ level, setLevel ] = useState<number>(1);
-  console.log(level)
+  
+  const guessMap: GuessMap = {
+    1: firstGuess,
+    2: secondGuess,
+    3: thirdGuess,
+    4: fourthGuess,
+    5: fifthGuess,
+    6: sixthGuess,
+  }
 
   const guessSetterMap: GuessSetterMap = {
     1: setFirstGuess,
@@ -37,6 +54,15 @@ export const PlayingBoardContainer = () => {
     4: setFourthGuess,
     5: setFifthGuess,
     6: setSixthGuess,
+  }
+
+  const submissionSetterMap: SubmissionSetterMap = {
+    1: setFristSubmitted,
+    2: setSecondSubmitted,
+    3: setThirdSubmitted,
+    4: setFourthSubmitted,
+    5: setFifthSubmitted,
+    6: setSixthSubmitted,
   }
 
   const handleKeyClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -61,7 +87,7 @@ export const PlayingBoardContainer = () => {
   const handleCheck = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     // check that the length of the word is valid
-    for (const letter of firstGuess) {
+    for (const letter of guessMap[level]) {
         if (letter === '') {
             console.log('too short')
             return;
@@ -69,13 +95,15 @@ export const PlayingBoardContainer = () => {
     }
     // check that the word is a valid word
     // check if word mathces the key
-    if (firstGuess.join() === answer.join()) {
+    if (guessMap[level].join() === answer.join()) {
+        submissionSetterMap[level](true);
         console.log('correct!');
         return;
     }
     // if all of these are false update the level to level 2 and apply needed styling to the tiles based on absolute and relative match
+    submissionSetterMap[level](true);
     setLevel(prevLevel => prevLevel + 1);
-    setFristSubmitted(true);
+    
   }
 
   return (
