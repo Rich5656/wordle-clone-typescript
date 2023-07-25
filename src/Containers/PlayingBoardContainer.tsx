@@ -37,6 +37,8 @@ export const PlayingBoardContainer = () => {
   const [ sixthSubmitted, setSixthSubmitted ] = useState<boolean>(false);
 
   const [ level, setLevel ] = useState<number>(1);
+
+  const [ usedLetters, setUsedLetters ] = useState<Set<string>>(new Set());
   
   const guessMap: GuessMap = {
     1: firstGuess,
@@ -101,9 +103,15 @@ export const PlayingBoardContainer = () => {
         return;
     }
     // if all of these are false update the level to level 2 and apply needed styling to the tiles based on absolute and relative match
+    setUsedLetters(prevState => {
+        const newState = new Set(prevState);
+        for (const letter of guessMap[level]) {
+            newState.add(letter);
+        }
+        return newState;
+    });
     submissionSetterMap[level](true);
     setLevel(prevLevel => prevLevel + 1);
-    
   }
 
   return (
@@ -115,7 +123,7 @@ export const PlayingBoardContainer = () => {
         <BoardRow guess={fourthGuess} submitted={fourthSubmitted} answer={answer}/>
         <BoardRow guess={fifthGuess} submitted={fifthSubmitted} answer={answer}/>
         <BoardRow guess={sixthGuess} submitted={sixthSubmitted} answer={answer}/>
-        <KeyboardDisplay handleKeyClick={handleKeyClick} handleCheck={handleCheck}/>
+        <KeyboardDisplay usedLetters={usedLetters} handleKeyClick={handleKeyClick} handleCheck={handleCheck}/>
     </main>
   )
 }

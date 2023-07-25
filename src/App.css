@@ -55,10 +55,26 @@
   vertical-align: middle;
 }
 
+.generic-key {
+  margin: 1px;
+  width: 50px;
+  height: 50px;
+  border: none;
+}
+
+.generic-key:hover {
+  cursor: pointer;
+  transform: scale(1.03);
+}
+
 .relative-match {
   background-color: rgb(254, 254, 143);
 }
 
 .absolute-match {
   background-color: rgb(91, 206, 91);
+}
+
+.used {
+  background-color: rgb(154, 154, 154);
 }
