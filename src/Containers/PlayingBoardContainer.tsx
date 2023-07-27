@@ -114,6 +114,28 @@ export const PlayingBoardContainer = () => {
     setLevel(prevLevel => prevLevel + 1);
   }
 
+  const handleBack = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    // update state to remove the last letter in the array
+    guessSetterMap[level](prevState => {
+        if (prevState[prevState.length - 1] !== '') {
+            prevState[prevState.length - 1] = '';
+            return [...prevState]
+        }
+        for (let i=0; i<prevState.length; i++) {
+            
+            if (prevState[i] === '' && i !== 0) {
+                // console.log(e.currentTarget)
+                prevState[i-1] = '';
+                break;
+            }
+        }
+        // console.log(prevState)
+        return [...prevState];
+    });
+    
+  }
+
   return (
     <main>
         {/* TODO: boardrow will need to accept props */}
@@ -123,7 +145,7 @@ export const PlayingBoardContainer = () => {
         <BoardRow guess={fourthGuess} submitted={fourthSubmitted} answer={answer}/>
         <BoardRow guess={fifthGuess} submitted={fifthSubmitted} answer={answer}/>
         <BoardRow guess={sixthGuess} submitted={sixthSubmitted} answer={answer}/>
-        <KeyboardDisplay usedLetters={usedLetters} handleKeyClick={handleKeyClick} handleCheck={handleCheck}/>
+        <KeyboardDisplay usedLetters={usedLetters} handleKeyClick={handleKeyClick} handleCheck={handleCheck} handleBack={handleBack}/>
     </main>
   )
 }
