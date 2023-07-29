@@ -1,6 +1,7 @@
 import React, { useState, MouseEvent } from 'react';
 import { BoardRow } from '../Components/BoardRow';
 import { KeyboardDisplay } from '../Components/KeyboardDisplay';
+import { SubmissionResponseDisplay } from '../Components/SubmissionResponseDisplay';
 
 
 interface GuessSetterMap {
@@ -39,6 +40,8 @@ export const PlayingBoardContainer = () => {
   const [ level, setLevel ] = useState<number>(1);
 
   const [ usedLetters, setUsedLetters ] = useState<Set<string>>(new Set());
+  const [ relativeMatch, setRelativeMatch ] = useState<Set<string>>(new Set());
+  const [ absoluteMatch, setAbsoluteMatch ] = useState<Set<string>>(new Set());
   
   const guessMap: GuessMap = {
     1: firstGuess,
@@ -102,14 +105,38 @@ export const PlayingBoardContainer = () => {
         console.log('correct!');
         return;
     }
-    // if all of these are false update the level to level 2 and apply needed styling to the tiles based on absolute and relative match
-    setUsedLetters(prevState => {
-        const newState = new Set(prevState);
-        for (const letter of guessMap[level]) {
-            newState.add(letter);
+    // loop through the current guess and set all of the sets related to use/mathces
+    for (let index=0; index < guessMap[level].length; index++) {
+        const letter: string = guessMap[level][index];
+        setUsedLetters(prevState => {
+            prevState.add(letter);
+            return prevState;
+        })
+        // check for absolute match
+        if (letter === answer[index]) {
+            setAbsoluteMatch(preveState => {
+                preveState.add(letter);
+                return preveState;
+            })
         }
-        return newState;
-    });
+        // relative match check
+        if (answer.includes(letter)) {
+            setRelativeMatch(prevState => {
+                prevState.add(letter);
+                return prevState
+            })
+        }
+    }
+
+
+    // if all of these are false update the level to level 2 and apply needed styling to the tiles based on absolute and relative match
+    // setUsedLetters(prevState => {
+    //     const newState = new Set(prevState);
+    //     for (const letter of guessMap[level]) {
+    //         newState.add(letter);
+    //     }
+    //     return newState;
+    // });
     submissionSetterMap[level](true);
     setLevel(prevLevel => prevLevel + 1);
   }
@@ -145,7 +172,12 @@ export const PlayingBoardContainer = () => {
         <BoardRow guess={fourthGuess} submitted={fourthSubmitted} answer={answer}/>
         <BoardRow guess={fifthGuess} submitted={fifthSubmitted} answer={answer}/>
         <BoardRow guess={sixthGuess} submitted={sixthSubmitted} answer={answer}/>
-        <KeyboardDisplay usedLetters={usedLetters} handleKeyClick={handleKeyClick} handleCheck={handleCheck} handleBack={handleBack}/>
+        <SubmissionResponseDisplay />
+        <KeyboardDisplay 
+        usedLetters={usedLetters} handleKeyClick={handleKeyClick} 
+        handleCheck={handleCheck} handleBack={handleBack}
+        relativeMatch={relativeMatch} absoluteMatch={absoluteMatch}
+        />
     </main>
   )
 }

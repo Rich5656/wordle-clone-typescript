@@ -48,6 +48,7 @@
   justify-content: center;
   align-items: center;
   border: 2px solid black;
+  border-radius: 10px;
   width: 40px;
   height: 40px;
   margin: 10px;
@@ -78,3 +79,17 @@
 .used {
   background-color: rgb(154, 154, 154);
 }
+
+.keyBoardActions {
+  border: none;
+  height: 50px;
+  width: 75px;
+  margin-right: 10px;
+  font-size: 100%;
+}
+
+.submission-response-area {
+  margin: 20px 20px;
+}
+
+
