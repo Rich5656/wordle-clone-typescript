@@ -1,17 +1,19 @@
 import React, { useMemo, useState, MouseEvent } from 'react'
 import { BoardRow } from '../Components/BoardRow'
 import { KeyboardDisplay } from '../Components/KeyboardDisplay';
+import { PreviousGuessRow } from '../Components/PreviousGuessRow';
+
 
 export const CrossWordleContainer = () => {
   const answer: string[] = ['w', 'o', 'r', 'd', 's'];
   // this may need a useEffect to update whenever the answer changes
-
   const placeHolder: string[] = useMemo(() => {
     return answer.map(() => '');
   }, [answer]) 
   
 
-  const [ currentGuess , setCurrentGuess ] = useState<string[]>(placeHolder);
+  const [ currentGuess , setCurrentGuess ] = useState<string[]>([...placeHolder]);
+  const [ previousGuess, setPreviousGuess ] = useState<string[]>([...placeHolder]);
   const [ submitted, setSubmitted ] = useState<boolean>(false);
   const [ usedLetters, setUsedLetters ] = useState<Set<string>>(new Set());
   const [ relativeMatch, setRelativeMatch ] = useState<Set<string>>(new Set());
@@ -45,7 +47,7 @@ export const CrossWordleContainer = () => {
         } 
     }
     // check that the word is a valid word
-    if ( currentGuess.join() === 'invalid') {
+    if (currentGuess.join() === 'invalid') {
         // setSubmissionResponse('invalid');
         return
     }
@@ -82,8 +84,9 @@ export const CrossWordleContainer = () => {
             })
         }
     }
+    setPreviousGuess([...currentGuess])
     setCurrentGuess(placeHolder)
-   setSubmitted(true);
+    setSubmitted(true);
     // setLevel(prevLevel => prevLevel + 1);
   }
 
@@ -115,6 +118,11 @@ export const CrossWordleContainer = () => {
   return (
     <main>
         <BoardRow answer={answer} guess={currentGuess} submitted={submitted} resetSubmitted={resetSubmitted} />
+        {/* need to render the previous guess, should be very similar to boardrow */}
+        <PreviousGuessRow
+        previousGuess={previousGuess} relativeMatch={relativeMatch} 
+        absoluteMatch={absoluteMatch}
+        />
         <KeyboardDisplay
         usedLetters={usedLetters} handleKeyClick={handleKeyClick} 
         handleCheck={handleCheck} handleBack={handleBack}

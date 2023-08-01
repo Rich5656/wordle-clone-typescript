@@ -56,6 +56,18 @@
   vertical-align: middle;
 }
 
+.previous-guess {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid white;
+  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  margin: 10px;
+  vertical-align: middle;
+}
+
 .generic-key {
   margin: 1px;
   width: 50px;
