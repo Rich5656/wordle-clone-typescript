@@ -42,6 +42,8 @@ export const PlayingBoardContainer = () => {
   const [ usedLetters, setUsedLetters ] = useState<Set<string>>(new Set());
   const [ relativeMatch, setRelativeMatch ] = useState<Set<string>>(new Set());
   const [ absoluteMatch, setAbsoluteMatch ] = useState<Set<string>>(new Set());
+
+  const [ submissionResponse, setSubmissionResponse ] = useState<string>('initial');
   
   const guessMap: GuessMap = {
     1: firstGuess,
@@ -94,17 +96,26 @@ export const PlayingBoardContainer = () => {
     // check that the length of the word is valid
     for (const letter of guessMap[level]) {
         if (letter === '') {
-            console.log('too short')
+            setSubmissionResponse('short')
             return;
         } 
     }
     // check that the word is a valid word
+    if ( guessMap[level].join() === 'invalid') {
+        setSubmissionResponse('invalid');
+        return
+    }
+
     // check if word mathces the key
     if (guessMap[level].join() === answer.join()) {
         submissionSetterMap[level](true);
-        console.log('correct!');
+        // console.log('correct!');
+        setSubmissionResponse('correct')
         return;
     }
+    // make submission response blank
+    setSubmissionResponse('initial');
+
     // loop through the current guess and set all of the sets related to use/mathces
     for (let index=0; index < guessMap[level].length; index++) {
         const letter: string = guessMap[level][index];
@@ -127,16 +138,6 @@ export const PlayingBoardContainer = () => {
             })
         }
     }
-
-
-    // if all of these are false update the level to level 2 and apply needed styling to the tiles based on absolute and relative match
-    // setUsedLetters(prevState => {
-    //     const newState = new Set(prevState);
-    //     for (const letter of guessMap[level]) {
-    //         newState.add(letter);
-    //     }
-    //     return newState;
-    // });
     submissionSetterMap[level](true);
     setLevel(prevLevel => prevLevel + 1);
   }
@@ -172,7 +173,7 @@ export const PlayingBoardContainer = () => {
         <BoardRow guess={fourthGuess} submitted={fourthSubmitted} answer={answer}/>
         <BoardRow guess={fifthGuess} submitted={fifthSubmitted} answer={answer}/>
         <BoardRow guess={sixthGuess} submitted={sixthSubmitted} answer={answer}/>
-        <SubmissionResponseDisplay />
+        <SubmissionResponseDisplay submissionResponse={submissionResponse}/>
         <KeyboardDisplay 
         usedLetters={usedLetters} handleKeyClick={handleKeyClick} 
         handleCheck={handleCheck} handleBack={handleBack}

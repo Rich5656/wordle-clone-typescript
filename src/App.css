@@ -61,9 +61,10 @@
   width: 50px;
   height: 50px;
   border: none;
+  font-size: 100%;
 }
 
-.generic-key:hover {
+.generic-key:hover, .keyboard-actions:hover {
   cursor: pointer;
   transform: scale(1.03);
 }
@@ -80,16 +81,22 @@
   background-color: rgb(154, 154, 154);
 }
 
-.keyBoardActions {
+.keyboard-actions {
   border: none;
   height: 50px;
   width: 75px;
-  margin-right: 10px;
+  margin: 2px;
   font-size: 100%;
 }
 
 .submission-response-area {
   margin: 20px 20px;
+  height: 20px;
+}
+
+.empty {
+  /* height: 21.6px; */
+  height: 100%;
 }
 
 

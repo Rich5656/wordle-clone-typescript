@@ -28,8 +28,8 @@ export const KeyboardDisplay = ({handleKeyClick, handleCheck, handleBack, usedLe
         <KeyboardRow usedLetters={usedLetters} relativeMatch={relativeMatch} absoluteMatch={absoluteMatch}
         keyline={keyLine3} handleKeyClick={handleKeyClick}
         />
-        <button className="keyBoardActions" onClick={handleBack}>Back</button>
-        <button className='keyBoardActions' onClick={handleCheck}>Submit</button>
+        <button className="keyboard-actions" onClick={handleBack}>Back</button>
+        <button className='keyboard-actions' onClick={handleCheck}>Submit</button>
     </div>
   )
 }
