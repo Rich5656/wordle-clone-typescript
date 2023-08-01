@@ -167,12 +167,12 @@ export const PlayingBoardContainer = () => {
   return (
     <main>
         {/* TODO: boardrow will need to accept props */}
-        <BoardRow  guess={firstGuess} submitted={firstSubmitted} answer={answer}/>
+        {/* <BoardRow  guess={firstGuess} submitted={firstSubmitted} answer={answer}/>
         <BoardRow guess={secondGuess} submitted={secondSubmitted} answer={answer}/>
         <BoardRow guess={thirdGuess} submitted={thirdSubmitted} answer={answer}/>
         <BoardRow guess={fourthGuess} submitted={fourthSubmitted} answer={answer}/>
         <BoardRow guess={fifthGuess} submitted={fifthSubmitted} answer={answer}/>
-        <BoardRow guess={sixthGuess} submitted={sixthSubmitted} answer={answer}/>
+        <BoardRow guess={sixthGuess} submitted={sixthSubmitted} answer={answer}/> */}
         <SubmissionResponseDisplay submissionResponse={submissionResponse}/>
         <KeyboardDisplay 
         usedLetters={usedLetters} handleKeyClick={handleKeyClick} 

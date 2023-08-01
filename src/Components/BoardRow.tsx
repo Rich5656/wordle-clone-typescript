@@ -4,15 +4,17 @@ interface BoardRowProps {
     guess: string[];
     submitted: boolean;
     answer: string[];
+    resetSubmitted: () => void;
 }
 
-export const BoardRow = ({ guess, submitted, answer }: BoardRowProps) => {
+export const BoardRow = ({ guess, submitted, answer, resetSubmitted }: BoardRowProps) => {
   const boardRowContent = (guess: string[], submitted: boolean) => {
     if (submitted === false) {
         return guess.map((letter) => <div className="tile"><p>{letter}</p></div>)
     } else {
         // TODO: fill in the logic for relative and absolute match styling
         console.log('submitted')
+        resetSubmitted()
         return guess.map((letter, index) => {
             if (answer[index] === letter) {
                 return <div className='tile absolute-match'><p>{letter}</p></div>
