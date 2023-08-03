@@ -1,3 +1,7 @@
+* {
+  background-color: #282c34;
+}
+
 .App {
   text-align: center;
 }
@@ -47,20 +51,27 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid black;
+  border: none;
   border-radius: 10px;
   width: 40px;
   height: 40px;
   margin: 10px;
+  background-color: white;
   /* text-align: center; */
   vertical-align: middle;
 }
 
+div p {
+  background-color: inherit;
+}
+
 .previous-guess {
+  /* background-color: white; */
+  color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid white;
+  border: none;
   border-radius: 10px;
   width: 40px;
   height: 40px;
@@ -69,6 +80,7 @@
 }
 
 .generic-key {
+  background-color: rgb(230, 229, 229);
   margin: 1px;
   width: 50px;
   height: 50px;
@@ -82,15 +94,23 @@
 }
 
 .relative-match {
-  background-color: rgb(254, 254, 143);
+  background-color: rgb(254, 254, 143); 
+}
+
+.relative-text {
+  color: rgb(254, 254, 143);
 }
 
 .absolute-match {
   background-color: rgb(91, 206, 91);
 }
 
+.absolute-text {
+  color: rgb(91, 206, 91);
+}
+
 .used {
-  background-color: rgb(154, 154, 154);
+  background-color: rgb(119, 119, 119);
 }
 
 .keyboard-actions {
@@ -104,6 +124,12 @@
 .submission-response-area {
   margin: 20px 20px;
   height: 20px;
+}
+
+.question-display {
+  color: white; 
+  font-size: x-large;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .empty {

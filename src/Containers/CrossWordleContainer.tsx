@@ -1,23 +1,38 @@
-import React, { useMemo, useState, MouseEvent } from 'react'
+import React, { useMemo, useState, MouseEvent, useEffect } from 'react'
 import { BoardRow } from '../Components/BoardRow'
 import { KeyboardDisplay } from '../Components/KeyboardDisplay';
 import { PreviousGuessRow } from '../Components/PreviousGuessRow';
-
+import { QuestionDisplayRow } from '../Components/QuestionDisplayRow';
+import { apiSimulation } from '../dist/ApiSimulationData';
+const choices = apiSimulation();
 
 export const CrossWordleContainer = () => {
-  const answer: string[] = ['w', 'o', 'r', 'd', 's'];
-  // this may need a useEffect to update whenever the answer changes
-  const placeHolder: string[] = useMemo(() => {
-    return answer.map(() => '');
-  }, [answer]) 
-  
+  // this will need to be done with an api call and needs to make a new call every time a correct submission is made
+//   const questionAnswer = {
+//     question: "Multiple combinations of letters.",
+//     answer: ['w','o','r','d','s']
+//   }
 
-  const [ currentGuess , setCurrentGuess ] = useState<string[]>([...placeHolder]);
-  const [ previousGuess, setPreviousGuess ] = useState<string[]>([...placeHolder]);
+//   const answer: string[] = [...questionAnswer.answer] //['w', 'o', 'r', 'd', 's'];
+ 
+  const initialQuestionAnswer = useMemo(() => {
+    const randomIndex: number = Math.floor(Math.random() * choices.length);
+    return choices[randomIndex]
+  }, []);
+
+  const [ currentAnswer, setCurrentAnswer ] = useState<string[]>(initialQuestionAnswer.answer);
+  const [ currentQuestion, setCurrentQuestion ] = useState<string>(initialQuestionAnswer.question);
+
+
+  const [ currentGuess , setCurrentGuess ] = useState<string[]>([...currentAnswer.map(() => '')]);
+  const [ previousGuess, setPreviousGuess ] = useState<string[]>([...currentAnswer.map(() => '')]);
   const [ submitted, setSubmitted ] = useState<boolean>(false);
   const [ usedLetters, setUsedLetters ] = useState<Set<string>>(new Set());
   const [ relativeMatch, setRelativeMatch ] = useState<Set<string>>(new Set());
   const [ absoluteMatch, setAbsoluteMatch ] = useState<Set<string>>(new Set());
+
+
+
 
   const handleKeyClick = (e: MouseEvent<HTMLButtonElement>) => {
     // TODO: add conditionals to add to different arrays based on the current level
@@ -53,7 +68,14 @@ export const CrossWordleContainer = () => {
     }
 
     // check if word mathces the key
-    if (currentGuess.join() === answer.join()) {
+    if (currentGuess.join() === currentAnswer.join()) {
+        // get new answer random question answer pair
+        const randomIndex: number = Math.floor(Math.random() * choices.length);
+        const questionAnswer = choices[randomIndex];
+        setCurrentAnswer(questionAnswer.answer);
+        setCurrentQuestion(questionAnswer.question);
+        setCurrentGuess([...questionAnswer.answer.map(() => '')]);
+        setPreviousGuess([...questionAnswer.answer.map(() => '')]);
         setSubmitted(true);
         // console.log('correct!');
         // setSubmissionResponse('correct')
@@ -70,14 +92,14 @@ export const CrossWordleContainer = () => {
             return prevState;
         })
         // check for absolute match
-        if (letter === answer[index]) {
+        if (letter === currentAnswer[index]) {
             setAbsoluteMatch(preveState => {
                 preveState.add(letter);
                 return preveState;
             })
         }
         // relative match check
-        if (answer.includes(letter)) {
+        if (currentAnswer.includes(letter)) {
             setRelativeMatch(prevState => {
                 prevState.add(letter);
                 return prevState
@@ -85,7 +107,7 @@ export const CrossWordleContainer = () => {
         }
     }
     setPreviousGuess([...currentGuess])
-    setCurrentGuess(placeHolder)
+    setCurrentGuess(currentAnswer.map(() => ''))
     setSubmitted(true);
     // setLevel(prevLevel => prevLevel + 1);
   }
@@ -117,11 +139,13 @@ export const CrossWordleContainer = () => {
 
   return (
     <main>
-        <BoardRow answer={answer} guess={currentGuess} submitted={submitted} resetSubmitted={resetSubmitted} />
+        <QuestionDisplayRow question={currentQuestion}/>
+        <BoardRow answer={currentAnswer} guess={currentGuess} submitted={submitted} resetSubmitted={resetSubmitted} />
         {/* need to render the previous guess, should be very similar to boardrow */}
         <PreviousGuessRow
         previousGuess={previousGuess} relativeMatch={relativeMatch} 
         absoluteMatch={absoluteMatch}
+        answer={currentAnswer}
         />
         <KeyboardDisplay
         usedLetters={usedLetters} handleKeyClick={handleKeyClick} 
