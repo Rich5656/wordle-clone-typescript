@@ -5,10 +5,16 @@ interface BoardRowProps {
     submitted: boolean;
     answer: string[];
     resetSubmitted: () => void;
+    shake: boolean;
+    resetShake: () => void;
 }
 
-export const BoardRow = ({ guess, submitted, answer, resetSubmitted }: BoardRowProps) => {
+export const BoardRow = ({ guess, submitted, answer, resetSubmitted, shake, resetShake }: BoardRowProps) => {
   const boardRowContent = (guess: string[], submitted: boolean) => {
+    if (shake === true) {
+        return guess.map((letter) => <div className="tile shake"><p>{letter}</p></div>)
+    }
+    
     if (submitted === false) {
         return guess.map((letter) => <div className="tile"><p>{letter}</p></div>)
     } else {
@@ -26,6 +32,8 @@ export const BoardRow = ({ guess, submitted, answer, resetSubmitted }: BoardRowP
         })
     }
   } 
+
+//   resetShake();
 
   return (
     <div className="playing-board-row">

@@ -1,4 +1,4 @@
-import React, { useMemo, useState, MouseEvent, useEffect } from 'react'
+import React, { useMemo, useState, MouseEvent  } from 'react'
 import { BoardRow } from '../Components/BoardRow'
 import { KeyboardDisplay } from '../Components/KeyboardDisplay';
 import { PreviousGuessRow } from '../Components/PreviousGuessRow';
@@ -30,8 +30,11 @@ export const CrossWordleContainer = () => {
   const [ usedLetters, setUsedLetters ] = useState<Set<string>>(new Set());
   const [ relativeMatch, setRelativeMatch ] = useState<Set<string>>(new Set());
   const [ absoluteMatch, setAbsoluteMatch ] = useState<Set<string>>(new Set());
+  const [ shake, setShake ] = useState<boolean>(false);
 
-
+  const resetShake = (): void => {
+    setShake(false);
+  }
 
 
   const handleKeyClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -57,12 +60,14 @@ export const CrossWordleContainer = () => {
     // check that the length of the word is valid
     for (const letter of currentGuess) {
         if (letter === '') {
+            setShake(true);
             // setSubmissionResponse('short')
             return;
         } 
     }
     // check that the word is a valid word
     if (currentGuess.join() === 'invalid') {
+        setShake(true);
         // setSubmissionResponse('invalid');
         return
     }
@@ -76,6 +81,9 @@ export const CrossWordleContainer = () => {
         setCurrentQuestion(questionAnswer.question);
         setCurrentGuess([...questionAnswer.answer.map(() => '')]);
         setPreviousGuess([...questionAnswer.answer.map(() => '')]);
+        setUsedLetters(new Set());
+        setAbsoluteMatch(new Set());
+        setRelativeMatch(new Set())
         setSubmitted(true);
         // console.log('correct!');
         // setSubmissionResponse('correct')
@@ -140,7 +148,10 @@ export const CrossWordleContainer = () => {
   return (
     <main>
         <QuestionDisplayRow question={currentQuestion}/>
-        <BoardRow answer={currentAnswer} guess={currentGuess} submitted={submitted} resetSubmitted={resetSubmitted} />
+        <BoardRow answer={currentAnswer} guess={currentGuess} 
+        submitted={submitted} resetSubmitted={resetSubmitted}
+        shake={shake} resetShake={resetShake}
+        />
         {/* need to render the previous guess, should be very similar to boardrow */}
         <PreviousGuessRow
         previousGuess={previousGuess} relativeMatch={relativeMatch} 
