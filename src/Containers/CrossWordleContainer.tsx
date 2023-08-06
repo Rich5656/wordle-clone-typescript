@@ -6,15 +6,13 @@ import { QuestionDisplayRow } from '../Components/QuestionDisplayRow';
 import { apiSimulation } from '../dist/ApiSimulationData';
 const choices = apiSimulation();
 
-export const CrossWordleContainer = () => {
-  // this will need to be done with an api call and needs to make a new call every time a correct submission is made
-//   const questionAnswer = {
-//     question: "Multiple combinations of letters.",
-//     answer: ['w','o','r','d','s']
-//   }
+interface CrossWordleContainerProps {
+    score: number;
+    handleScoreUpdate: (points: number) => void;
+}
 
-//   const answer: string[] = [...questionAnswer.answer] //['w', 'o', 'r', 'd', 's'];
- 
+export const CrossWordleContainer = ({ score, handleScoreUpdate }: CrossWordleContainerProps) => {
+  // this will need to be done with an api call and needs to make a new call every time a correct submission is made 
   const initialQuestionAnswer = useMemo(() => {
     const randomIndex: number = Math.floor(Math.random() * choices.length);
     return choices[randomIndex]
@@ -81,7 +79,8 @@ export const CrossWordleContainer = () => {
         // get new answer random question answer pair
         const randomIndex: number = Math.floor(Math.random() * choices.length);
         const questionAnswer = choices[randomIndex];
-        setSubmissionType('correct')
+        setSubmissionType('correct');
+        handleScoreUpdate(100);
         setCurrentAnswer(questionAnswer.answer);
         setCurrentQuestion(questionAnswer.question);
         setCurrentGuess([...questionAnswer.answer.map(() => '')]);
@@ -120,6 +119,7 @@ export const CrossWordleContainer = () => {
         }
     }
     setSubmissionType('wrong')
+    handleScoreUpdate(-20);
     setPreviousGuess([...currentGuess])
     setCurrentGuess(currentAnswer.map(() => ''))
     setSubmitted(true);
@@ -160,7 +160,7 @@ export const CrossWordleContainer = () => {
             <div>Time</div>
             <div>2:30</div>
             <div>Score</div>
-            <div>500</div>
+            <div>{score}</div>
         </div>
         <QuestionDisplayRow question={currentQuestion}/>
         <BoardRow answer={currentAnswer} guess={currentGuess} 
