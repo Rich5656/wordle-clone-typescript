@@ -30,16 +30,19 @@ export const CrossWordleContainer = () => {
   const [ usedLetters, setUsedLetters ] = useState<Set<string>>(new Set());
   const [ relativeMatch, setRelativeMatch ] = useState<Set<string>>(new Set());
   const [ absoluteMatch, setAbsoluteMatch ] = useState<Set<string>>(new Set());
-  const [ shake, setShake ] = useState<boolean>(false);
+  const [ shake, setShake ] = useState<number>(0);
+  const [ submissionType, setSubmissionType ] = useState<string>('initial')
 
   const resetShake = (): void => {
-    setShake(false);
+    setShake(0);
   }
 
 
   const handleKeyClick = (e: MouseEvent<HTMLButtonElement>) => {
     // TODO: add conditionals to add to different arrays based on the current level
     e.preventDefault();
+    setShake(0);
+    setSubmissionType('initial')
     const target: string = e.currentTarget.id
     
     setCurrentGuess(prevState => {
@@ -60,14 +63,15 @@ export const CrossWordleContainer = () => {
     // check that the length of the word is valid
     for (const letter of currentGuess) {
         if (letter === '') {
-            setShake(true);
+            setShake(prevState => prevState + 1);
+            setSubmissionType('shake');
             // setSubmissionResponse('short')
             return;
         } 
     }
     // check that the word is a valid word
     if (currentGuess.join() === 'invalid') {
-        setShake(true);
+        setShake(0);
         // setSubmissionResponse('invalid');
         return
     }
@@ -77,6 +81,7 @@ export const CrossWordleContainer = () => {
         // get new answer random question answer pair
         const randomIndex: number = Math.floor(Math.random() * choices.length);
         const questionAnswer = choices[randomIndex];
+        setSubmissionType('correct')
         setCurrentAnswer(questionAnswer.answer);
         setCurrentQuestion(questionAnswer.question);
         setCurrentGuess([...questionAnswer.answer.map(() => '')]);
@@ -114,6 +119,7 @@ export const CrossWordleContainer = () => {
             })
         }
     }
+    setSubmissionType('wrong')
     setPreviousGuess([...currentGuess])
     setCurrentGuess(currentAnswer.map(() => ''))
     setSubmitted(true);
@@ -122,6 +128,8 @@ export const CrossWordleContainer = () => {
 
   const handleBack = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    setShake(0);
+    setSubmissionType('initial')
     // update state to remove the last letter in the array
     setCurrentGuess(prevState => {
         if (prevState[prevState.length - 1] !== '') {
@@ -144,13 +152,20 @@ export const CrossWordleContainer = () => {
   const resetSubmitted = (): void => {
     setSubmitted(false);
   }
+  
 
   return (
     <main>
+        <div className='game-information'>
+            <div>Time</div>
+            <div>2:30</div>
+            <div>Score</div>
+            <div>500</div>
+        </div>
         <QuestionDisplayRow question={currentQuestion}/>
         <BoardRow answer={currentAnswer} guess={currentGuess} 
         submitted={submitted} resetSubmitted={resetSubmitted}
-        shake={shake} resetShake={resetShake}
+        shake={shake} submissionType={submissionType}
         />
         {/* need to render the previous guess, should be very similar to boardrow */}
         <PreviousGuessRow

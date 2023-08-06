@@ -132,13 +132,31 @@ div p {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+.game-information {
+  color: white;
+}
+
 .empty {
   /* height: 21.6px; */
   height: 100%;
 }
 
+.wrong {
+  /* background-color: rgb(246, 100, 100); */
+  animation: wrong .5s linear;
+}
+
 .shake {
   animation: shake .5s;
+}
+
+@keyframes wrong {
+  0% { 
+    background-color: rgb(246, 100, 100) ;
+  }
+  100% {
+    background-color: white;
+  }
 }
 
 @keyframes shake {
