@@ -1,4 +1,4 @@
-import React, { useMemo, useState, MouseEvent  } from 'react'
+import React, { useMemo, useState, MouseEvent, useEffect  } from 'react'
 import { BoardRow } from '../Components/BoardRow'
 import { KeyboardDisplay } from '../Components/KeyboardDisplay';
 import { PreviousGuessRow } from '../Components/PreviousGuessRow';
@@ -9,9 +9,11 @@ const choices = apiSimulation();
 interface CrossWordleContainerProps {
     score: number;
     handleScoreUpdate: (points: number) => void;
+    minutes: number;
+    seconds: number;
 }
 
-export const CrossWordleContainer = ({ score, handleScoreUpdate }: CrossWordleContainerProps) => {
+export const CrossWordleContainer = ({ score, handleScoreUpdate, minutes, seconds }: CrossWordleContainerProps) => {
   // this will need to be done with an api call and needs to make a new call every time a correct submission is made 
   const initialQuestionAnswer = useMemo(() => {
     const randomIndex: number = Math.floor(Math.random() * choices.length);
@@ -35,6 +37,9 @@ export const CrossWordleContainer = ({ score, handleScoreUpdate }: CrossWordleCo
     setShake(0);
   }
 
+  useEffect(() => {
+    setSubmissionType('initial')
+  }, [seconds]);
 
   const handleKeyClick = (e: MouseEvent<HTMLButtonElement>) => {
     // TODO: add conditionals to add to different arrays based on the current level
@@ -158,7 +163,7 @@ export const CrossWordleContainer = ({ score, handleScoreUpdate }: CrossWordleCo
     <main>
         <div className='game-information'>
             <div>Time</div>
-            <div>2:30</div>
+            <div>{`${minutes}:${seconds < 10 ? '0' + seconds : seconds}`}</div>
             <div>Score</div>
             <div>{score}</div>
         </div>
