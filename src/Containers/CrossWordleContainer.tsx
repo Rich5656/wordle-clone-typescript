@@ -7,13 +7,12 @@ import { apiSimulation } from '../dist/ApiSimulationData';
 const choices = apiSimulation();
 
 interface CrossWordleContainerProps {
-    score: number;
     handleScoreUpdate: (points: number) => void;
     minutes: number;
     seconds: number;
 }
 
-export const CrossWordleContainer = ({ score, handleScoreUpdate, minutes, seconds }: CrossWordleContainerProps) => {
+export const CrossWordleContainer = ({ handleScoreUpdate, minutes, seconds }: CrossWordleContainerProps) => {
   // this will need to be done with an api call and needs to make a new call every time a correct submission is made 
   const initialQuestionAnswer = useMemo(() => {
     const randomIndex: number = Math.floor(Math.random() * choices.length);
@@ -24,7 +23,7 @@ export const CrossWordleContainer = ({ score, handleScoreUpdate, minutes, second
   const [ currentQuestion, setCurrentQuestion ] = useState<string>(initialQuestionAnswer.question);
 
 
-  const [ currentGuess , setCurrentGuess ] = useState<string[]>([...currentAnswer.map(() => '')]);
+  const [ currentGuess, setCurrentGuess ] = useState<string[]>([...currentAnswer.map(() => '')]);
   const [ previousGuess, setPreviousGuess ] = useState<string[]>([...currentAnswer.map(() => '')]);
   const [ submitted, setSubmitted ] = useState<boolean>(false);
   const [ usedLetters, setUsedLetters ] = useState<Set<string>>(new Set());
@@ -33,9 +32,9 @@ export const CrossWordleContainer = ({ score, handleScoreUpdate, minutes, second
   const [ shake, setShake ] = useState<number>(0);
   const [ submissionType, setSubmissionType ] = useState<string>('initial')
 
-  const resetShake = (): void => {
-    setShake(0);
-  }
+//   const resetShake = (): void => {
+//     setShake(0);
+//   }
 
   useEffect(() => {
     setSubmissionType('initial')
@@ -160,13 +159,8 @@ export const CrossWordleContainer = ({ score, handleScoreUpdate, minutes, second
   
 
   return (
-    <main>
-        <div className='game-information'>
-            <div>Time</div>
-            <div>{`${minutes}:${seconds < 10 ? '0' + seconds : seconds}`}</div>
-            <div>Score</div>
-            <div>{score}</div>
-        </div>
+    <>
+     
         <QuestionDisplayRow question={currentQuestion}/>
         <BoardRow answer={currentAnswer} guess={currentGuess} 
         submitted={submitted} resetSubmitted={resetSubmitted}
@@ -183,6 +177,6 @@ export const CrossWordleContainer = ({ score, handleScoreUpdate, minutes, second
         handleCheck={handleCheck} handleBack={handleBack}
         relativeMatch={relativeMatch} absoluteMatch={absoluteMatch}
         />
-    </main>
+    </>
   )
 }

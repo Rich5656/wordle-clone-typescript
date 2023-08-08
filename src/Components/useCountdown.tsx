@@ -1,18 +1,21 @@
 import React, {useState, useEffect} from 'react'
 
-const useCountdown = () => {
-  const [countDown, setCountDown] = useState<number>(0);
+
+
+const useCountdown = (begin: boolean) => {
+  const [countDown, setCountDown] = useState<number>(5 * 60 * 1000);
 //   const [runTimer, setRunTimer] = useState<boolean>(true);
 
     useEffect(() => {
-        setCountDown(5 * 60 * 1000);
-        const interval = setInterval(() => {
-                console.log(countDown)
-                setCountDown(prev => prev - 1000);
-            }, 1000);
+        if (begin === true) {
+            const interval = setInterval(() => {
+                    console.log(countDown)
+                    setCountDown(prev => prev - 1000);
+                }, 1000);
 
-        return () => clearInterval(interval);
-    }, []);
+            return () => clearInterval(interval);
+        }
+    }, [begin]);
 
     return getReturnValues(countDown);
 };
