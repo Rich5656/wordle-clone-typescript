@@ -9,12 +9,17 @@ import { CountdownDisplay } from './Components/CountdownDisplay';
 
 
 function App() {
-  const [ begin, setBegin ] = useState(false);
-  const [ score, setScore ] = useState<number>(0)
-  const [ minutes, seconds ] = useCountdown(begin);
+  const [begin, setBegin] = useState<boolean>(false);
+  const [status, setStatus] = useState<string>('intro')
+  const [score, setScore] = useState<number>(0);
+  const [userName, setUserName] = useState<string>('');
+  const [minutes, seconds] = useCountdown(status);
   
   const handleBegin = () => {
-    setBegin(true);
+    if (userName !== "") {
+      setBegin(true);
+      setStatus('begin');
+    }
   }
 
   const handleScoreUpdate = (points: number) => {
@@ -24,17 +29,22 @@ function App() {
   useEffect(() => {
     if (minutes === 0 && seconds === 0) {
       setBegin(false);
+      setStatus('end');
     }
-  }) 
-
-  return (
-    <div className="App">
-      {(begin === false)
-        ?
-        <div className='begin-button-area'>
+  })
+  
+  const setPageView = () => {
+    if (status === 'intro') {
+      return (
+        <div className='page-intro-area'>
+          <div>User Info:</div>
+          <input className='user-information' value={userName} type='text' onChange={(e) => setUserName(e.target.value)}></input>
           <button className='begin-button' onClick={handleBegin}>Begin</button>
         </div>
-        :
+      );
+    }
+    if (status === 'begin') {
+      return (
         <main>
         {/* <PlayingBoardContainer /> */}
           <div className="game-information">
@@ -46,8 +56,27 @@ function App() {
             minutes={minutes} seconds={seconds}
           />
         </main>
-      
-      }
+      )
+    }
+
+    if (status === 'end') {
+      return (
+        <div className='leaderboard'>
+          <div>Leaders:</div>
+          <ul className='scores-list'>
+            <li className='user-score'>
+              <div>{score}</div>
+              <div>{userName}</div>
+            </li>
+          </ul>
+        </div>
+      )
+    }
+  }
+
+  return (
+    <div className="App">
+      {setPageView()}
     </div>
   );
 }
