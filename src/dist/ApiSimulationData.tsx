@@ -1,4 +1,5 @@
-export const apiSimulation = () => {
+export const apiSimulationCrossWordle = () => {
+
     return [
         {
             question: 'Capital of Georgia?',
@@ -16,5 +17,26 @@ export const apiSimulation = () => {
             question: '2021 World Series Winners',
             answer: ['b','r','a','v','e','s']
         }
+    ]
+}
+
+export const apiSimulationAnagramAttack = () => {
+    return [
+        {
+            answer: ['w','r', 'o', 'n', 'g'],
+            alt: ['g','r', 'o', 'w', 'n']
+        },
+        {
+            answer: ['w','r', 'o', 'n', 'g'],
+            alt: ['g','r', 'o', 'w', 'n']
+        },
+        {
+            answer: ['w','r', 'o', 'n', 'g'],
+            alt: ['g','r', 'o', 'w', 'n']
+        },
+        {
+            answer: ['w','r', 'o', 'n', 'g'],
+            alt: ['g','r', 'o', 'w', 'n']
+        },
     ]
 }

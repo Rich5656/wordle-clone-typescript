@@ -3,8 +3,8 @@ import { BoardRow } from '../Components/BoardRow'
 import { KeyboardDisplay } from '../Components/KeyboardDisplay';
 import { PreviousGuessRow } from '../Components/PreviousGuessRow';
 import { QuestionDisplayRow } from '../Components/QuestionDisplayRow';
-import { apiSimulation } from '../dist/ApiSimulationData';
-const choices = apiSimulation();
+import { apiSimulationCrossWordle } from '../dist/ApiSimulationData';
+const choices = apiSimulationCrossWordle();
 
 interface CrossWordleContainerProps {
     handleScoreUpdate: (points: number) => void;
@@ -29,7 +29,7 @@ export const CrossWordleContainer = ({ handleScoreUpdate, minutes, seconds }: Cr
   const [ usedLetters, setUsedLetters ] = useState<Set<string>>(new Set());
   const [ relativeMatch, setRelativeMatch ] = useState<Set<string>>(new Set());
   const [ absoluteMatch, setAbsoluteMatch ] = useState<Set<string>>(new Set());
-  const [ shake, setShake ] = useState<number>(0);
+//   const [ shake, setShake ] = useState<number>(0);
   const [ submissionType, setSubmissionType ] = useState<string>('initial')
 
 //   const resetShake = (): void => {
@@ -43,7 +43,7 @@ export const CrossWordleContainer = ({ handleScoreUpdate, minutes, seconds }: Cr
   const handleKeyClick = (e: MouseEvent<HTMLButtonElement>) => {
     // TODO: add conditionals to add to different arrays based on the current level
     e.preventDefault();
-    setShake(0);
+    // setShake(0);
     setSubmissionType('initial')
     const target: string = e.currentTarget.id
     
@@ -65,16 +65,14 @@ export const CrossWordleContainer = ({ handleScoreUpdate, minutes, seconds }: Cr
     // check that the length of the word is valid
     for (const letter of currentGuess) {
         if (letter === '') {
-            setShake(prevState => prevState + 1);
+            // setShake(prevState => prevState + 1);
             setSubmissionType('shake');
-            // setSubmissionResponse('short')
             return;
         } 
     }
     // check that the word is a valid word
     if (currentGuess.join() === 'invalid') {
-        setShake(0);
-        // setSubmissionResponse('invalid');
+        // setShake(0);
         return
     }
 
@@ -93,12 +91,9 @@ export const CrossWordleContainer = ({ handleScoreUpdate, minutes, seconds }: Cr
         setAbsoluteMatch(new Set());
         setRelativeMatch(new Set())
         setSubmitted(true);
-        // console.log('correct!');
         // setSubmissionResponse('correct')
         return;
     }
-    // make submission response blank
-    // setSubmissionResponse('initial');
 
     // loop through the current guess and set all of the sets related to use/mathces
     for (let index=0; index < currentGuess.length; index++) {
@@ -132,7 +127,7 @@ export const CrossWordleContainer = ({ handleScoreUpdate, minutes, seconds }: Cr
 
   const handleBack = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setShake(0);
+    // setShake(0);
     setSubmissionType('initial')
     // update state to remove the last letter in the array
     setCurrentGuess(prevState => {
@@ -160,11 +155,10 @@ export const CrossWordleContainer = ({ handleScoreUpdate, minutes, seconds }: Cr
 
   return (
     <>
-     
         <QuestionDisplayRow question={currentQuestion}/>
         <BoardRow answer={currentAnswer} guess={currentGuess} 
         submitted={submitted} resetSubmitted={resetSubmitted}
-        shake={shake} submissionType={submissionType}
+        submissionType={submissionType}
         />
         {/* need to render the previous guess, should be very similar to boardrow */}
         <PreviousGuessRow

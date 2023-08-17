@@ -5,11 +5,10 @@ interface BoardRowProps {
     submitted: boolean;
     answer: string[];
     resetSubmitted: () => void;
-    shake: number;
     submissionType: string;
 }
 
-export const BoardRow = ({ guess, submitted, answer, resetSubmitted, shake, submissionType  }: BoardRowProps) => {
+export const BoardRow = ({ guess, submitted, answer, resetSubmitted, submissionType  }: BoardRowProps) => {
   const boardRowContent = (guess: string[], submitted: boolean) => {
     if (submissionType === 'shake' || submissionType === 'wrong') {
         return guess.map((letter) => <div key={Math.random()} className={`tile ${submissionType}`}><p>{letter}</p></div>)
