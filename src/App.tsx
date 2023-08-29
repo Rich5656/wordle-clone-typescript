@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, MouseEvent } from 'react';
 import './App.css';
 import { CrossWordleContainer } from './Containers/CrossWordleContainer';
 import { useCountdown } from './Components/useCountdown';
 import { useState } from 'react';
 import { ScoreDisplay } from './Components/ScoreDisplay';
 import { CountdownDisplay } from './Components/CountdownDisplay';
+import { AnagramAttackContainer } from './Containers/AnagramAttackContainer';
+
 // import { PlayingBoardContainer } from './Containers/PlayingBoardContainer';
 
 
@@ -14,8 +16,10 @@ function App() {
   const [score, setScore] = useState<number>(0);
   const [userName, setUserName] = useState<string>('');
   const [minutes, seconds] = useCountdown(status);
-  
-  const handleBegin = () => {
+  const [gameType, setGameType] = useState<string>();
+
+  const handleBegin = (e: MouseEvent<HTMLButtonElement>) => {
+    setGameType(e.currentTarget.name);
     if (userName !== "") {
       setBegin(true);
       setStatus('begin');
@@ -39,7 +43,8 @@ function App() {
         <div className='page-intro-area'>
           <div>User Info:</div>
           <input className='user-information' value={userName} type='text' onChange={(e) => setUserName(e.target.value)}></input>
-          <button className='begin-button' onClick={handleBegin}>Begin</button>
+          <button className='begin-button' name='trivia' onClick={handleBegin}>Trivia</button>
+          <button className='begin-button' name='anagramAttack' onClick={handleBegin}>Anagram Attack</button>
         </div>
       );
     }
@@ -51,10 +56,14 @@ function App() {
             <CountdownDisplay minutes={minutes} seconds={seconds}/>
             <ScoreDisplay score={score} />
           </div>
-
+          
+          {(gameType === "trivia") ? 
           <CrossWordleContainer handleScoreUpdate={handleScoreUpdate}
             minutes={minutes} seconds={seconds}
-          />
+          /> :
+          <AnagramAttackContainer handleScoreUpdate={handleScoreUpdate}
+          minutes={minutes} seconds={seconds} />
+          }
         </main>
       )
     }
