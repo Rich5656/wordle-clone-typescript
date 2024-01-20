@@ -1,11 +1,5 @@
 import React from 'react'
-
-interface PreviousGuessProps {
-    previousGuess: string[];
-    relativeMatch: Set<string>;
-    absoluteMatch: Set<string>;
-    answer: string[];
-}
+import { PreviousGuessProps } from '../Common/types';
 
 export const PreviousGuessRow = ({previousGuess, relativeMatch, absoluteMatch, answer}: PreviousGuessProps) => {
     const previousGuessRowContent = () => {

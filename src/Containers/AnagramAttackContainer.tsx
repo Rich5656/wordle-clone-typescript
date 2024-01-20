@@ -2,15 +2,12 @@ import React, { useState, useEffect, MouseEvent, useMemo } from 'react'
 import { BoardRow } from '../Components/BoardRow'
 import { KeyboardDisplay } from '../Components/KeyboardDisplay';
 import { PreviousGuessRow } from '../Components/PreviousGuessRow';
-import { QuestionDisplayRow } from '../Components/QuestionDisplayRow';
-import { apiSimulationAnagramAttack } from '../dist/ApiSimulationData';
+//import { QuestionDisplayRow } from '../Components/QuestionDisplayRow';
+import { apiSimulationAnagramAttack } from '../Common/utils';
+import { AnagramAttackContainerProps } from '../Common/types';
+
 const choices = apiSimulationAnagramAttack();
 
-interface AnagramAttackContainerProps {
-    handleScoreUpdate: (points: number) => void;
-    minutes: number;
-    seconds: number;
-}
 
 export const AnagramAttackContainer = ({handleScoreUpdate, minutes, seconds}: AnagramAttackContainerProps) => {
     const answerPair = useMemo(() => {
@@ -75,7 +72,7 @@ export const AnagramAttackContainer = ({handleScoreUpdate, minutes, seconds}: An
         // check if word mathces the key
         if (currentGuess.join() === currentAnswer.join()) {
             // get new answer random question answer pair
-            const randomIndex: number = Math.floor(Math.random() * choices.length);
+            // const randomIndex: number = Math.floor(Math.random() * choices.length);
             // const questionAnswer = choices[randomIndex];
             setSubmissionType('correct');
             handleScoreUpdate(100);

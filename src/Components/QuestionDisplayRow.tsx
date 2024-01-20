@@ -1,8 +1,5 @@
-import React from 'react'
-
-interface QuestionDisplayRowProps {
-    question: string;
-}
+import React from 'react';
+import { QuestionDisplayRowProps } from '../Common/types';
 
 export const QuestionDisplayRow = ({ question }: QuestionDisplayRowProps) => {
   return (

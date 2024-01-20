@@ -1,14 +1,6 @@
 import React, {MouseEvent} from 'react'
 import { KeyboardRow } from './KeyboardRow'
-
-interface KeyboardDisplayProps {
-    handleKeyClick: (e: MouseEvent<HTMLButtonElement>) => void;
-    handleCheck: (e: MouseEvent<HTMLButtonElement>) => void;
-    handleBack: (e: MouseEvent<HTMLButtonElement>) => void;
-    usedLetters: Set<string>;
-    relativeMatch: Set<string>;
-    absoluteMatch: Set<string>;
-}
+import { KeyboardDisplayProps } from '../Common/types';
 
 const keyLine1: string[] = ['q','w','e','r','t','y','u','i','o','p'];
 const keyLine2: string[] = ['a','s','d','f','g','h','j','k','l'];

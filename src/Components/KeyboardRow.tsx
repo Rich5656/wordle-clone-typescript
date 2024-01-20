@@ -1,12 +1,6 @@
 import React, {MouseEvent} from 'react'
+import { KeyboardRowProps } from '../Common/types'
 
-type KeyboardRowProps = {
-    keyline: string[];
-    handleKeyClick: (e: MouseEvent<HTMLButtonElement>) => void;
-    usedLetters: Set<string>;
-    relativeMatch: Set<string>;
-    absoluteMatch: Set<string>;
-}
 
 export const KeyboardRow = ({keyline, handleKeyClick, usedLetters, relativeMatch, absoluteMatch}:KeyboardRowProps ) => {
   const renderKeys: () => JSX.Element[] = () => {

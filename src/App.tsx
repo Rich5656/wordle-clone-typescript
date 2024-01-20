@@ -1,7 +1,7 @@
 import React, { useEffect, MouseEvent } from 'react';
 import './App.css';
 import { CrossWordleContainer } from './Containers/CrossWordleContainer';
-import { useCountdown } from './Components/useCountdown';
+import { useCountdown } from './Common/Hooks/useCountdown';
 import { useState } from 'react';
 import { ScoreDisplay } from './Components/ScoreDisplay';
 import { CountdownDisplay } from './Components/CountdownDisplay';

@@ -1,8 +1,6 @@
 import React from 'react'
+import { SubmissionResponseDisplayProps } from '../Common/types';
 
-interface SubmissionResponseDisplayProps {
-    submissionResponse: string;
-}
 
 export const SubmissionResponseDisplay = ({submissionResponse}: SubmissionResponseDisplayProps) => {
   // TODO: conditonally render out any issues or success messages 

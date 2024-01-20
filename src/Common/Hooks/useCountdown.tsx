@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from 'react'
 
-
-
 const useCountdown = (status: string) => {
   const [countDown, setCountDown] = useState<number>(3 * 60 * 1000);
 //   const [runTimer, setRunTimer] = useState<boolean>(true);

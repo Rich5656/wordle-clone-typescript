@@ -1,8 +1,5 @@
 import React from 'react'
-
-interface ScoreDisplayProps {
-    score: number;
-}
+import { ScoreDisplayProps } from '../Common/types';
 
 export const ScoreDisplay = ({score}: ScoreDisplayProps) => {
   return (

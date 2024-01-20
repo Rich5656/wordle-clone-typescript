@@ -3,14 +3,10 @@ import { BoardRow } from '../Components/BoardRow'
 import { KeyboardDisplay } from '../Components/KeyboardDisplay';
 import { PreviousGuessRow } from '../Components/PreviousGuessRow';
 import { QuestionDisplayRow } from '../Components/QuestionDisplayRow';
-import { apiSimulationCrossWordle } from '../dist/ApiSimulationData';
-const choices = apiSimulationCrossWordle();
+import { apiSimulationCrossWordle } from '../Common/utils';
+import { CrossWordleContainerProps } from '../Common/types';
 
-interface CrossWordleContainerProps {
-    handleScoreUpdate: (points: number) => void;
-    minutes: number;
-    seconds: number;
-}
+const choices = apiSimulationCrossWordle();
 
 export const CrossWordleContainer = ({ handleScoreUpdate, minutes, seconds }: CrossWordleContainerProps) => {
   // this will need to be done with an api call and needs to make a new call every time a correct submission is made 
@@ -136,7 +132,6 @@ export const CrossWordleContainer = ({ handleScoreUpdate, minutes, seconds }: Cr
             return [...prevState]
         }
         for (let i=0; i<prevState.length; i++) {
-            
             if (prevState[i] === '' && i !== 0) {
                 // console.log(e.currentTarget)
                 prevState[i-1] = '';
@@ -156,20 +151,21 @@ export const CrossWordleContainer = ({ handleScoreUpdate, minutes, seconds }: Cr
   return (
     <>
         <QuestionDisplayRow question={currentQuestion}/>
-        <BoardRow answer={currentAnswer} guess={currentGuess} 
-        submitted={submitted} resetSubmitted={resetSubmitted}
-        submissionType={submissionType}
+        <BoardRow 
+          answer={currentAnswer} guess={currentGuess} 
+          submitted={submitted} resetSubmitted={resetSubmitted}
+          submissionType={submissionType}
         />
         {/* need to render the previous guess, should be very similar to boardrow */}
         <PreviousGuessRow
-        previousGuess={previousGuess} relativeMatch={relativeMatch} 
-        absoluteMatch={absoluteMatch}
-        answer={currentAnswer}
+          previousGuess={previousGuess} relativeMatch={relativeMatch} 
+          absoluteMatch={absoluteMatch}
+          answer={currentAnswer}
         />
         <KeyboardDisplay
-        usedLetters={usedLetters} handleKeyClick={handleKeyClick} 
-        handleCheck={handleCheck} handleBack={handleBack}
-        relativeMatch={relativeMatch} absoluteMatch={absoluteMatch}
+          usedLetters={usedLetters} handleKeyClick={handleKeyClick} 
+          handleCheck={handleCheck} handleBack={handleBack}
+          relativeMatch={relativeMatch} absoluteMatch={absoluteMatch}
         />
     </>
   )

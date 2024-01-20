@@ -1,12 +1,7 @@
 import React from 'react'
+import { BoardRowProps } from '../Common/types';
 
-interface BoardRowProps {
-    guess: string[];
-    submitted: boolean;
-    answer: string[];
-    resetSubmitted: () => void;
-    submissionType: string;
-}
+
 
 export const BoardRow = ({ guess, submitted, answer, resetSubmitted, submissionType  }: BoardRowProps) => {
   const boardRowContent = (guess: string[], submitted: boolean) => {
